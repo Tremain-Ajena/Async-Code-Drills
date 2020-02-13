@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     stringy('Hey, how are you?');
     setTimeout(function () { stringy('Hey, stop calling me.'); }, 2000);
+
     function stringy(message) {
         console.log(message);
     };
@@ -8,9 +9,20 @@ document.addEventListener("DOMContentLoaded", function () {
     getWords();
     function getWords() {
         console.log('cheese');
-        setTimeout(function () { console.log('Apples'); }, 3000);
-        setTimeout(function () { console.log('Oranges'); }, 2000);
-        setTimeout(function () { console.log('Bananas'); }, 1000);
+        // setTimeout(function () { console.log('Apples'); }, 3000);
+        // setTimeout(function () { console.log('Oranges'); }, 2000);
+        // setTimeout(function () { console.log('Bananas'); }, 1000);
+
+        // How to Nest the Timeout Function: the words needed to be logged depending on when the preceding one was logged, not logging them independently as the code runs.
+        setTimeout(function () {
+            console.log('Apples');
+            setTimeout(function () {
+                console.log('Oranges');
+                setTimeout(function () {
+                    console.log('Bananas');
+                }, 1000);
+            }, 2000);
+        }, 3000);
     };
 
     // Callbacks and Recursion
@@ -39,22 +51,17 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(function () { countDown(8, Done); }, 7000);
 
     // Promises Promises Section
-    // let lunchTime = true;
     let lunchTime = true;
 
-    
     function orderMeSomeFood(message) {
         return new Promise((resolve, reject) => {
-            let choices = Math.floor(Math.random() * 10);
-            if (choices % 2 === 0) {
-                lunchTime = true;
+            if (lunchTime) {
                 foodOptions = {
                     lunch: 'Salisbury Steak, Mashed Potatoes, and Brocoli',
                     drink: 'Apple Juice'
                 }
                 resolve(foodOptions);
             } else {
-                lunchTime = false;
                 let err = new Error('Why can we never have anything nice?');
                 reject(err);
             }
@@ -64,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
     orderMeSomeFood("Hey there buddy, ol' pal").then((a) => {
         console.log(a);
-    }).catch((e)=> {
+    }).catch((e) => {
         console.log('An error occured');
         console.log(e);
     });
